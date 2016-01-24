@@ -32,22 +32,24 @@ public class TheGame {
     @FXML
     private Button bottomright;
 
-    private TheGame() {
+    public TheGame() {
     }
 
 
 
-    public boolean kollaVinnare(){
+    public boolean checkForWinner(){
 
         //KOLLAR OM 3 I RAD HOROZONTELLT
-        if(mBr�de[0] == mBr�de[1] && mBr�de[1] == mBr�de[2] && mBr�de[0] != ' '){
+        if( topleft.getText() == topcenter.getText() && topcenter.getText() == topright.getText() && topleft.getText() != "?"){
             return true;
-        } else if (mBr�de[3] == mBr�de[4] && mBr�de[4] == mBr�de[5] && mBr�de[3] != ' '){
+        } else if (leftcenter.getText() == center.getText() && center.getText() == rightcenter.getText() && leftcenter.getText() != "?"){
             return true;
-        } else if (mBr�de[6] == mBr�de[7] && mBr�de[7] == mBr�de[8] && mBr�de[6] != ' '){
+        } else if (bottomleft.getText() == bottomcenter.getText() && bottomcenter.getText() == bottomright.getText() && bottomleft.getText() != "?"){
             return true;
-        }
-        //KOLLAR OM 3 I RAD VERTIKALT
+        } else return false;
+
+
+      /*  //KOLLAR OM 3 I RAD VERTIKALT
         else if (mBr�de[0] == mBr�de[3] && mBr�de[3] == mBr�de[6] && mBr�de[0] != ' ' ){
             return true;
         } else if (mBr�de[1] == mBr�de[4] && mBr�de[4] == mBr�de[7] && mBr�de[1] != ' '){
@@ -61,8 +63,18 @@ public class TheGame {
         } else if (mBr�de[2] == mBr�de[4] && mBr�de[4] == mBr�de[6] && mBr�de[2] != ' '){
             return true;
         } else
-        return false;
+        return false;*/
 
+    }
+
+    public void quitMatch(int turn, boolean checkwinner){
+        if (checkForWinner() == true){
+            System.out.println(" har vunnit!");
+        }
+
+        if(turn == 9){
+            System.out.println("Oavgjort!");
+        }
     }
 
 }

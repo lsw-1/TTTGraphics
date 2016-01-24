@@ -1,5 +1,6 @@
 package com.ludwigstralewiren.controller;
 
+import com.ludwigstralewiren.model.TheGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,6 +27,7 @@ public class Controller {
     private Button bottomright;
 
     int turn = 0;
+    private TheGame game = new TheGame();
 
 
     public void clickTheButton(ActionEvent event) {
@@ -89,6 +91,8 @@ public class Controller {
         } else {
             System.out.println("ERROR");
         }
+
+        game.quitMatch(turn, game.checkForWinner());
     }
 
     private void drawX(Button btn) {
