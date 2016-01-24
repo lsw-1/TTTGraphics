@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ludwigstralewiren.controller.Controller">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <Button fx:id="topleft" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" />
+        <Button fx:id="topcenter" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" GridPane.columnIndex="1" />
+        <Button fx:id="topright" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" GridPane.columnIndex="2" />
+        <Button fx:id="leftcenter" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" GridPane.rowIndex="1" />
+        <Button fx:id="center" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Button fx:id="rightcenter" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <Button fx:id="bottomleft" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" GridPane.rowIndex="2" />
+        <Button fx:id="bottomcenter" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Button fx:id="bottomright" mnemonicParsing="false" onAction="#clickTheButton" prefHeight="400.0" prefWidth="300.0" text="?" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+    </children>
+</GridPane>
