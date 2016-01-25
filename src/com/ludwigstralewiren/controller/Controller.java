@@ -1,6 +1,6 @@
 package com.ludwigstralewiren.controller;
 
-import com.ludwigstralewiren.model.TheGame;
+import com.ludwigstralewiren.model.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,12 +27,11 @@ public class Controller {
     private Button bottomright;
 
     int turn = 0;
-    private TheGame game = new TheGame();
+
 
 
     public void clickTheButton(ActionEvent event) {
         Object btn = event.getSource();
-
 
         if (btn.equals(topleft) && turn % 2 == 0 && topleft.getText().equals("?")) {
             drawX(topleft);
@@ -92,8 +91,10 @@ public class Controller {
             System.out.println("ERROR");
         }
 
-        game.quitMatch(turn, game.checkForWinner());
+        quitMatch(turn, checkForWinner());
+
     }
+
 
     private void drawX(Button btn) {
         btn.setText("X");
@@ -103,11 +104,49 @@ public class Controller {
         btn.setText("O");
     }
 
+    public boolean checkForWinner() {
 
-    public void TEST(ActionEvent event) {
-
-        System.out.println(event);
+        //KOLLAR OM 3 I RAD HOROZONTELLT
+        if (topleft.getText() == topcenter.getText() && topcenter.getText() == topright.getText() && topleft.getText() != "?") {
+            return true;
+        } else if (leftcenter.getText() == center.getText() && center.getText() == rightcenter.getText() && leftcenter.getText() != "?") {
+            return true;
+        } else if (bottomleft.getText() == bottomcenter.getText() && bottomcenter.getText() == bottomright.getText() && bottomleft.getText() != "?") {
+            return true;
+        } else return false;
     }
+
+    public void quitMatch(int turn, boolean checkwinner){
+        if (checkForWinner() == true){
+            if (turn % 2 == 0){
+                System.out.println( "1 har vunnit!");
+                Player.PLAYERONE.setScore(1);
+                disableButtons();
+            } else {
+                System.out.println("2 har vunnit");
+                Player.PLAYERTWO.setScore(1);
+                disableButtons();
+            }
+        }
+
+        if(turn == 9){
+            System.out.println("Oavgjort!");
+        }
+    }
+
+    public void showScores(){
+        System.out.println("Player 1: " + Player.PLAYERONE.getScore() + " Player 2: " + Player.PLAYERTWO.getScore());
+    }
+
+    private void disableButtons(){
+        topleft.setDisable(true);
+        topcenter.setDisable(true);
+        topright.setDisable(true);
+    }
+
+
+
+
 
 
 }
