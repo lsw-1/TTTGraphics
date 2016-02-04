@@ -1,11 +1,19 @@
 package com.ludwigstralewiren.controller;
 
+import com.ludwigstralewiren.model.Game;
 import com.ludwigstralewiren.model.Player;
+import com.ludwigstralewiren.model.Scores;
+import com.ludwigstralewiren.model.interfaces.Observable;
+import com.ludwigstralewiren.model.interfaces.Observer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
-public class Controller {
+import java.util.ArrayList;
+
+
+public class Controller implements Observable {
 
     @FXML
     private Button topleft;
@@ -25,128 +33,150 @@ public class Controller {
     private Button bottomcenter;
     @FXML
     private Button bottomright;
+    @FXML
+    private Label message;
+    @FXML
+    private Label scores;
+    @FXML
+    private Button restart;
 
-    int turn = 0;
+    private int playerOneScore;
+    private int playerTwoScore;
+    int turn = 1;
+    ArrayList<Observer> listObservers = new ArrayList<>();
+    Observer scoreofPlayers = new Scores(this);
 
+    Game game = Game.getInstance();
 
+    @FXML
+    private void initialize() {
+        restart.setDisable(true);
+    }
 
-    public void clickTheButton(ActionEvent event) {
+    public void setScoresText(String text) {
+        scores.setText(text);
+    }
+
+    public void chooseSquare(ActionEvent event) {
+
         Object btn = event.getSource();
 
-        if (btn.equals(topleft) && turn % 2 == 0 && topleft.getText().equals("?")) {
-            drawX(topleft);
-            turn++;
-        } else if (btn.equals(topleft) && turn % 2 != 0 && topleft.getText().equals("?")) {
-            turn++;
-            drawO(topleft);
-        } else if (btn.equals(topcenter) && turn % 2 == 0 && topcenter.getText().equals("?")) {
-            turn++;
-            drawX(topcenter);
-        } else if (btn.equals(topcenter) && turn % 2 != 0 && topcenter.getText().equals("?")) {
-            turn++;
-            drawO(topcenter);
-        } else if (btn.equals(topright) && turn % 2 == 0 && topright.getText().equals("?")) {
-            turn++;
-            drawX(topright);
-        } else if (btn.equals(topright) && turn % 2 != 0 && topright.getText().equals("?")) {
-            turn++;
-            drawO(topright);
-        } else if (btn.equals(leftcenter) && turn % 2 == 0 && leftcenter.getText().equals("?")) {
-            turn++;
-            drawX(leftcenter);
-        } else if (btn.equals(leftcenter) && turn % 2 != 0 && leftcenter.getText().equals("?")) {
-            turn++;
-            drawO(leftcenter);
-        } else if (btn.equals(center) && turn % 2 == 0 && center.getText().equals("?")) {
-            turn++;
-            drawX(center);
-        } else if (btn.equals(center) && turn % 2 != 0 && center.getText().equals("?")) {
-            turn++;
-            drawO(center);
-        } else if (btn.equals(rightcenter) && turn % 2 == 0 && rightcenter.getText().equals("?")) {
-            turn++;
-            drawX(rightcenter);
-        } else if (btn.equals(rightcenter) && turn % 2 != 0 && rightcenter.getText().equals("?")) {
-            turn++;
-            drawO(rightcenter);
-        } else if (btn.equals(bottomleft) && turn % 2 == 0 && bottomleft.getText().equals("?")) {
-            turn++;
-            drawX(bottomleft);
-        } else if (btn.equals(bottomleft) && turn % 2 != 0 && bottomleft.getText().equals("?")) {
-            turn++;
-            drawO(bottomleft);
-        } else if (btn.equals(bottomcenter) && turn % 2 == 0 && bottomcenter.getText().equals("?")) {
-            turn++;
-            drawX(bottomcenter);
-        } else if (btn.equals(bottomcenter) && turn % 2 != 0 && bottomcenter.getText().equals("?")) {
-            turn++;
-            drawO(bottomcenter);
-        } else if (btn.equals(bottomright) && turn % 2 == 0 && bottomright.getText().equals("?")) {
-            turn++;
-            drawX(bottomright);
-        } else if (btn.equals(bottomright) && turn % 2 != 0 && bottomright.getText().equals("?")) {
-            turn++;
-            drawO(bottomright);
-        } else {
-            System.out.println("ERROR");
+        Button clickedBtn = null;
+        if (btn instanceof Button) {
+            clickedBtn = (Button) btn;
         }
 
-        quitMatch(turn, checkForWinner());
-
-    }
-
-
-    private void drawX(Button btn) {
-        btn.setText("X");
-    }
-
-    private void drawO(Button btn) {
-        btn.setText("O");
-    }
-
-    public boolean checkForWinner() {
-
-        //KOLLAR OM 3 I RAD HOROZONTELLT
-        if (topleft.getText() == topcenter.getText() && topcenter.getText() == topright.getText() && topleft.getText() != "?") {
-            return true;
-        } else if (leftcenter.getText() == center.getText() && center.getText() == rightcenter.getText() && leftcenter.getText() != "?") {
-            return true;
-        } else if (bottomleft.getText() == bottomcenter.getText() && bottomcenter.getText() == bottomright.getText() && bottomleft.getText() != "?") {
-            return true;
-        } else return false;
-    }
-
-    public void quitMatch(int turn, boolean checkwinner){
-        if (checkForWinner() == true){
-            if (turn % 2 == 0){
-                System.out.println( "1 har vunnit!");
-                Player.PLAYERONE.setScore(1);
-                disableButtons();
-            } else {
-                System.out.println("2 har vunnit");
-                Player.PLAYERTWO.setScore(1);
-                disableButtons();
-            }
+        if (turn % 2 == 0 && clickedBtn.getText().equals("?")) {
+            clickedBtn.setText(Player.PLAYERONE.getMarker());
+            turn++;
+        } else if (turn % 2 != 0 && clickedBtn.getText().equals("?")) {
+            clickedBtn.setText(Player.PLAYERTWO.getMarker());
+            turn++;
         }
 
-        if(turn == 9){
-            System.out.println("Oavgjort!");
-        }
+        System.out.println(turn);
+
+
+        quitMatch(turn, game.checkForWinner(topleft, topcenter, topright,
+                leftcenter, center, rightcenter,
+                bottomleft, bottomcenter, bottomright));
+
+
     }
 
-    public void showScores(){
-        System.out.println("Player 1: " + Player.PLAYERONE.getScore() + " Player 2: " + Player.PLAYERTWO.getScore());
+    private void enableButtons() {
+        topleft.setDisable(false);
+        topcenter.setDisable(false);
+        topright.setDisable(false);
+        leftcenter.setDisable(false);
+        center.setDisable(false);
+        rightcenter.setDisable(false);
+        bottomleft.setDisable(false);
+        bottomcenter.setDisable(false);
+        bottomright.setDisable(false);
     }
 
-    private void disableButtons(){
-        topleft.setDisable(true);
+    private void disableButtons() {
         topcenter.setDisable(true);
+        topleft.setDisable(true);
+        leftcenter.setDisable(true);
+        center.setDisable(true);
+        rightcenter.setDisable(true);
+        bottomleft.setDisable(true);
+        bottomcenter.setDisable(true);
+        bottomright.setDisable(true);
         topright.setDisable(true);
     }
 
+    public void quitMatch(int turn, boolean checkifwinner) {
 
+        if (checkifwinner == true) {
+            if (turn % 2 != 0) {
+                message.setText(Player.PLAYERONE.getName() + " HAVE WON THIS ROUND");
+                Player.PLAYERONE.setScore(Player.PLAYERONE.getScore() + 1);
+                restart.setDisable(false);
+                disableButtons();
+                setPlayerOneScore(playerOneScore + 1);
+            } else if (turn % 2 == 0) {
+                message.setText(Player.PLAYERTWO.getName() + " HAVE WON THIS ROUND");
+                Player.PLAYERTWO.setScore(Player.PLAYERTWO.getScore() + 1);
+                restart.setDisable(false);
+                disableButtons();
+                setPlayerTwoScore(playerOneScore + 1);
+            }
+        }
+        if (turn == 10) {
+            message.setText("IT'S A TIE!");
+            restart.setDisable(false);
+            disableButtons();
 
+        }
 
+    }
 
+    public void setPlayerOneScore(int newScore) {
+        this.playerOneScore = newScore;
+        notifyObserver();
+    }
+
+    public void setPlayerTwoScore(int newScore) {
+        this.playerTwoScore = newScore;
+        notifyObserver();
+    }
+
+    public void restartButton(ActionEvent event) {
+        enableButtons();
+        topleft.setText("?");
+        topcenter.setText("?");
+        topright.setText("?");
+        leftcenter.setText("?");
+        center.setText("?");
+        rightcenter.setText("?");
+        bottomleft.setText("?");
+        bottomcenter.setText("?");
+        bottomright.setText("?");
+        restart.setDisable(true);
+        restart.setOpacity(0);
+        message.setText("");
+        turn = 0;
+    }
+
+    @Override
+    public void register(Observer newObserver) {
+        listObservers.add(newObserver);
+    }
+
+    @Override
+    public void unregister(Observer deleteObserver) {
+        int observerIndex = listObservers.indexOf(deleteObserver);
+        listObservers.remove(observerIndex);
+    }
+
+    @Override
+    public void notifyObserver() {
+        for (Observer observer : listObservers) {
+            observer.update(playerOneScore, playerTwoScore);
+        }
+    }
 
 }

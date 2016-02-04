@@ -1,19 +1,20 @@
 package com.ludwigstralewiren.model;
 
-/**
- * Created by Ludwig on 1/21/2016.
- */
-public enum Player {
-    PLAYERONE(0, 'X'),
-    PLAYERTWO(0, 'O');
+public enum Player  {
+    PLAYERONE(0, "X",""),
+    PLAYERTWO(0, "O","");
+
 
     private int score;
-    private char marker;
+    private String marker;
+    private String name;
 
 
-    Player(int score, char marker) {
+    Player(int score, String marker, String name) {
         this.score = score;
         this.marker = marker;
+        this.name = name;
+
     }
 
     public int getScore() {
@@ -24,11 +25,16 @@ public enum Player {
         this.score = score;
     }
 
-    public char getMarker() {
+    public String getMarker() {
         return marker;
     }
 
-    public void setMarker(char marker) {
-        this.marker = marker;
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
