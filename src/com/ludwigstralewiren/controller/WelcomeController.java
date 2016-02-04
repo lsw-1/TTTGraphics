@@ -14,9 +14,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * Created by Ludwig on 1/30/2016.
- */
 public class WelcomeController {
 
     @FXML

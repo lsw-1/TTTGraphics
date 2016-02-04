@@ -2,9 +2,6 @@ package com.ludwigstralewiren.model;
 
 import javafx.scene.control.Button;
 
-/**
- * Created by Ludwig on 2/1/2016.
- */
 
 
 public class Game {

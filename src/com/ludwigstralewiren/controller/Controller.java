@@ -68,13 +68,15 @@ public class Controller implements Observable {
 
         if (turn % 2 == 0 && clickedBtn.getText().equals("?")) {
             clickedBtn.setText(Player.PLAYERONE.getMarker());
+            message.setText("");
             turn++;
         } else if (turn % 2 != 0 && clickedBtn.getText().equals("?")) {
             clickedBtn.setText(Player.PLAYERTWO.getMarker());
+            message.setText("");
             turn++;
+        } else {
+            message.setText("INVALID MOVE");
         }
-
-        System.out.println(turn);
 
 
         quitMatch(turn, game.checkForWinner(topleft, topcenter, topright,
@@ -113,19 +115,17 @@ public class Controller implements Observable {
         if (checkifwinner == true) {
             if (turn % 2 != 0) {
                 message.setText(Player.PLAYERONE.getName() + " HAVE WON THIS ROUND");
-                Player.PLAYERONE.setScore(Player.PLAYERONE.getScore() + 1);
                 restart.setDisable(false);
                 disableButtons();
                 setPlayerOneScore(playerOneScore + 1);
             } else if (turn % 2 == 0) {
                 message.setText(Player.PLAYERTWO.getName() + " HAVE WON THIS ROUND");
-                Player.PLAYERTWO.setScore(Player.PLAYERTWO.getScore() + 1);
                 restart.setDisable(false);
                 disableButtons();
-                setPlayerTwoScore(playerOneScore + 1);
+                setPlayerTwoScore(playerTwoScore + 1);
             }
         }
-        if (turn == 10) {
+        if (turn+1 == 10) {
             message.setText("IT'S A TIE!");
             restart.setDisable(false);
             disableButtons();
